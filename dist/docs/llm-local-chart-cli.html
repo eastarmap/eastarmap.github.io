@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>让大模型调用本地海图能力：东星海图的 CLI 思路 · 东星海图文档</title>
+<meta name="description" content="本地 C/C++ 海图能力如何安全交给大模型：从 C ABI 固定边界、eastarmap_cli.exe 的 JSON 命令契约，到 Python MCP Server 接入客户端。">
+<link rel="canonical" href="https://eastarmap.com/docs/llm-local-chart-cli.html">
+<meta property="og:title" content="让大模型调用本地海图能力：东星海图的 CLI 思路 · 东星海图文档">
+<meta property="og:description" content="本地 C/C++ 海图能力如何安全交给大模型：从 C ABI 固定边界、eastarmap_cli.exe 的 JSON 命令契约，到 Python MCP Server 接入客户端。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://eastarmap.com/docs/llm-local-chart-cli.html">
+<meta property="og:site_name" content="Eastar Map">
+<link rel="alternate" hreflang="zh-CN" href="https://eastarmap.com/docs/llm-local-chart-cli.html">
+<link rel="alternate" hreflang="en" href="https://eastarmap.com/en/docs/llm-local-chart-cli.html">
+<link rel="alternate" hreflang="x-default" href="https://eastarmap.com/docs/llm-local-chart-cli.html">
+<link rel="icon" href="../qrcode/aboutCycle-2023-120.png">
+<link rel="stylesheet" href="../styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Eastar Map Technology Co., Ltd.","alternateName":"东星海图科技有限公司","url":"https://eastarmap.com/","address":"武汉东湖高新区高新四路666号","email":"cheldon@outlook.com"}</script>
+</head>
+<body class="page-doc">
+<header class="site-header" aria-label="顶部导航">
+  <a class="brand-mark" href="../index.html" aria-label="东星海图首页"><img class="brand-logo" src="../qrcode/aboutCycle-2023-120.png" alt="东星海图品牌 Logo" decoding="async"> <span>东星海图 · Eastar Map</span></a>
+  <nav class="top-nav" aria-label="主导航"><a href="../index.html">首页</a><a href="../about.html">关于</a><a href="../product.html">产品</a><a href="../scenarios.html">方案</a><a href="../contact.html">联系</a><a href="../docs.html" aria-current="page">文档</a></nav>
+  <div class="language-switch" aria-label="语言切换">
+    <a href="../en/docs/llm-local-chart-cli.html" aria-label="Switch to English">Eng</a>
+  </div>
+</header>
+<main class="page"><section class="hero"><div class="hero-content"><p class="eyebrow">Docs</p><h1>让大模型调用本地海图能力：东星海图的 CLI 思路</h1><p class="lead doc-hero-meta"><time datetime="2026-09-21">更新日期：2026-09-21</time></p></div></section>
+  <section class="section card doc-article">
+  <a class="doc-back" href="../docs.html">← 返回文档列表</a>
+  <img class="doc-cover" src="../docs/assets/1-eastar-mcp-server-access-render-chart-to-webp.png" alt="大模型通过 MCP 调用 s57render 渲染海图 WebP 的会话截图" loading="lazy" decoding="async">
+  <p class="doc-summary">本地 C/C++ 海图能力如何安全交给大模型：从 C ABI 固定边界、eastarmap_cli.exe 的 JSON 命令契约，到 Python MCP Server 接入客户端。</p>
+  <p class="doc-tags"><span class="tag">大模型调用</span><span class="tag">MCP</span></p>
+  <p>现在，大模型已经可以参与很多工作流。但对海图系统来说，一个关键问题是：本地海图能力怎样安全、稳定地交给大模型调用？东星海图采用的思路是：先把本地能力做成命令行，再通过 MCP 暴露给大模型客户端。</p><h3>第一步：本地能力不直接暴露给脚本</h3><p>东星海图的底层能力来自 C/C++ 海图模块。这类能力不适合直接把 C++ 类、异常或内存结构暴露给脚本层，因此底层通过 C ABI 形成稳定接口，例如 ogc_chart_c_api.dll 和相关 sdk_c_api 头文件。这样做的目的，是把底层能力边界固定下来。</p><h3>第二步：用 eastarmap_cli.exe 形成命令行契约</h3><p>在 C ABI 之上，eastarmap_cli.exe 负责把能力变成可调用命令，默认输出 JSON，适合被程序解析。常见工具包括：</p><ul class="doc-list"><li>health：检查运行环境</li><li>version：返回版本和 ABI 绑定信息</li><li>capabilities：说明支持哪些能力</li><li>s57parse：解析 S57 海图数据</li><li>s57render：渲染海图图片</li></ul><p>这样，大模型不需要理解底层 DLL，只需要通过 MCP 间接调用这些命令。</p><h3>第三步：用 Python MCP Server 接到大模型客户端</h3><p>Python MCP Server 负责接收工具调用、校验参数、调用 CLI、解析 JSON，再把结果返回给 Trae、Kilo 等客户端。首版推荐通过 CLI 间接复用 C ABI，而不是让 Python 直接调用 DLL，这样更容易定位问题，也能减少跨语言内存和异常边界风险。</p><h3>为什么这件事重要</h3><p>这条链路让本地海图能力可以被大模型安全调用。例如，大模型可以先调用 health 查看环境是否可用，再调用 capabilities 确认可用工具，之后按需使用 s57parse 或 s57render。同时，路径白名单、超时和结构化错误也可以作为安全边界，避免随意读取或输出文件。</p><figure class="doc-figure"><img src="../docs/assets/6-eastar-layers-manager-chart-main-view-properties.png" alt="加载海图文件后的主视图、图层要素与文件属性截图" loading="lazy" decoding="async"><figcaption>加载海图文件后的主视图、图层要素与文件属性。</figcaption></figure><div class="notice">东星海图的 CLI/MCP 思路，是把本地 C/C++ 海图能力变成可验证的 JSON 命令，再交给大模型按工具方式调用。</div>
+  </section>
+  <section class="section card"><h2>继续阅读</h2><ul class="doc-related"><li><a href="../docs/chart-data-formats.html">海图数据格式说明</a><span>说明 S-57、S-63 与 S-101 三类海图数据的定位差异，以及数据授权、更新和接入前需要确认的事项。</span></li><li><a href="../docs/warning-capability.html">预警能力说明</a><span>梳理浅点、碍航物、偏航、限速区、禁航区和桥梁净空等预警类型的触发依据、提示分级与可配置项。</span></li><li><a href="../docs/deployment-integration.html">部署与集成指南</a><span>介绍船端、岸端与混合部署的适用场景、运行环境要求，以及 NMEA、WebSocket 等接口对接流程。</span></li><li><a href="../docs/safer-voyage-support.html">东星海图：让每一次航行更安心</a><span>从品牌定位到适用场景，说明东星海图围绕海图显示、实时定位、风险预警和航线规划提供航行辅助的方向。</span></li><li><a href="../docs/charts-beyond-display.html">海图不只是用来看，也要参与判断</a><span>海图显示只是起点。说明海图数据、实时定位、风险预警与航线规划如何配合，共同支撑航行判断。</span></li><li><a href="../docs/six-navigation-scenarios.html">六类航行场景，都需要更清晰的风险提示</a><span>远洋运输、近海捕捞、内河航道、港区与海事监管等场景各有侧重，但共同需求一致：风险更早被看见，航线更可控。</span></li><li><a href="../docs/from-website-to-release.html">从官网到发布，东星海图已经准备了什么</a><span>从品牌入口、产品说明、应用场景到发布路径，梳理东星海图官网已经搭好的基础内容与后续补强方向。</span></li></ul></section><section class="section contact-strip" id="contact">
+  <div class="footer-brand">
+    <div>
+      <h2>东星海图 · Eastar Map</h2>
+      <p>Stars above. Seas ahead.</p>
+    </div>
+    <div class="qrcode-grid qrcode-grid-left"><figure class="qrcode-card"><img src="../qrcode/weixin-qrcode.png" alt="企业微信咨询二维码" loading="lazy" decoding="async"><figcaption><strong>企业微信咨询二维码</strong><span>扫码进入企业微信咨询入口，获取项目沟通与商务支持。</span></figcaption></figure><figure class="qrcode-card"><img src="../qrcode/weixin%20gzh.jpg" alt="微信公众号二维码" loading="lazy" decoding="async"><figcaption><strong>微信公众号二维码</strong><span>扫码关注东星海图微信公众号，获取产品动态与航行安全资讯。</span></figcaption></figure></div>
+  </div>
+  <div class="footer-meta muted">
+    <div>© 2020 - 2026 东星海图科技有限公司 All Rights Reserved.</div>
+    <div>邮箱: <a href="mailto:cheldon@outlook.com">cheldon@outlook.com</a></div>
+    <div>地址: 武汉东湖高新区高新四路666号</div>
+    <div class="footer-links"><a href="https://eastarmap.com/">官网: https://eastarmap.com/</a><a href="https://github.com/eastarmap/repository/releases">最新发布</a></div>
+  </div>
+</section></main>
+</body>
+</html>

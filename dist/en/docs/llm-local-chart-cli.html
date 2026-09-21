@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Letting Large Models Call Local Chart Capabilities: The Eastar Map CLI Approach · Docs · Eastar Map</title>
+<meta name="description" content="How local C/C++ chart capabilities reach large model clients safely: a stable C ABI, the eastarmap_cli.exe JSON command contract, and a Python MCP Server.">
+<link rel="canonical" href="https://eastarmap.com/en/docs/llm-local-chart-cli.html">
+<meta property="og:title" content="Letting Large Models Call Local Chart Capabilities: The Eastar Map CLI Approach · Docs · Eastar Map">
+<meta property="og:description" content="How local C/C++ chart capabilities reach large model clients safely: a stable C ABI, the eastarmap_cli.exe JSON command contract, and a Python MCP Server.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://eastarmap.com/en/docs/llm-local-chart-cli.html">
+<meta property="og:site_name" content="Eastar Map">
+<link rel="alternate" hreflang="zh-CN" href="https://eastarmap.com/docs/llm-local-chart-cli.html">
+<link rel="alternate" hreflang="en" href="https://eastarmap.com/en/docs/llm-local-chart-cli.html">
+<link rel="alternate" hreflang="x-default" href="https://eastarmap.com/docs/llm-local-chart-cli.html">
+<link rel="icon" href="../../qrcode/aboutCycle-2023-120.png">
+<link rel="stylesheet" href="../../styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Eastar Map Technology Co., Ltd.","alternateName":"东星海图科技有限公司","url":"https://eastarmap.com/","address":"No. 666, Gaoxin 4th Road, East Lake High-Tech Development Zone, Wuhan, China","email":"cheldon@outlook.com"}</script>
+</head>
+<body class="page-doc">
+<header class="site-header" aria-label="Main navigation">
+  <a class="brand-mark" href="../index.html" aria-label="Eastar Map home"><img class="brand-logo" src="../../qrcode/aboutCycle-2023-120.png" alt="Eastar Map brand logo" decoding="async"> <span>东星海图 · Eastar Map</span></a>
+  <nav class="top-nav" aria-label="Primary"><a href="../index.html">Home</a><a href="../about.html">About</a><a href="../product.html">Product</a><a href="../scenarios.html">Scenarios</a><a href="../contact.html">Contact</a><a href="../docs.html" aria-current="page">Docs</a></nav>
+  <div class="language-switch" aria-label="Language switch">
+    <a href="../../docs/llm-local-chart-cli.html" aria-label="切换到中文">中文</a>
+  </div>
+</header>
+<main class="page"><section class="hero"><div class="hero-content"><p class="eyebrow">Docs</p><h1>Letting Large Models Call Local Chart Capabilities: The Eastar Map CLI Approach</h1><p class="lead doc-hero-meta"><time datetime="2026-09-21">Updated: 2026-09-21</time></p></div></section>
+  <section class="section card doc-article">
+  <a class="doc-back" href="../docs.html">← Back to documents</a>
+  <img class="doc-cover" src="../../docs/assets/1-eastar-mcp-server-access-render-chart-to-webp.png" alt="Session screenshot of a large model rendering a chart to WebP through the MCP s57render tool" loading="lazy" decoding="async">
+  <p class="doc-summary">How local C/C++ chart capabilities reach large model clients safely: a stable C ABI, the eastarmap_cli.exe JSON command contract, and a Python MCP Server.</p>
+  <p class="doc-tags"><span class="tag">LLM integration</span><span class="tag">MCP</span></p>
+  <p>Large models can already take part in many workflows. For a chart system, a key question is how local chart capabilities can be handed to large models safely and reliably. The Eastar Map approach is to turn local capabilities into commands first, then expose them to model clients through MCP.</p><h3>Step 1: local capabilities are not exposed to scripts directly</h3><p>The underlying capabilities of Eastar Map come from C/C++ chart modules. C++ classes, exceptions, and memory structures are not suitable for direct exposure to a script layer, so the foundation forms a stable interface through C ABI, such as ogc_chart_c_api.dll and the related sdk_c_api headers. The purpose is to fix the boundary of the underlying capability.</p><h3>Step 2: eastarmap_cli.exe forms the command contract</h3><p>On top of the C ABI, eastarmap_cli.exe turns capabilities into callable commands. Its default output is JSON, which is easy for programs to parse. Common tools include:</p><ul class="doc-list"><li>health: checks the runtime environment</li><li>version: returns version and ABI binding information</li><li>capabilities: describes which capabilities are supported</li><li>s57parse: parses S57 chart data</li><li>s57render: renders chart images</li></ul><p>This way, a large model does not need to understand the underlying DLL; it calls these commands indirectly through MCP.</p><h3>Step 3: a Python MCP Server connects to model clients</h3><p>The Python MCP Server receives tool calls, validates parameters, invokes the CLI, parses JSON, and returns results to clients such as Trae and Kilo. The first version reuses the C ABI indirectly through the CLI rather than calling the DLL from Python directly, which makes problems easier to locate and reduces cross-language memory and exception boundary risks.</p><h3>Why this matters</h3><p>This chain lets local chart capabilities be called safely by large models. For example, a model can call health to check whether the environment is usable, then call capabilities to confirm the available tools, and then use s57parse or s57render as needed. Path allowlists, timeouts, and structured errors also serve as safety boundaries that prevent arbitrary file reads or outputs.</p><figure class="doc-figure"><img src="../../docs/assets/6-eastar-layers-manager-chart-main-view-properties.png" alt="Screenshot of a loaded chart cell with layer features and chart file properties" loading="lazy" decoding="async"><figcaption>Loaded chart cell with layer features and chart file properties.</figcaption></figure><div class="notice">The Eastar Map CLI/MCP approach turns local C/C++ chart capabilities into verifiable JSON commands and hands them to large models as tools.</div>
+  </section>
+  <section class="section card"><h2>Continue Reading</h2><ul class="doc-related"><li><a href="../docs/chart-data-formats.html">Chart Data Format Notes</a><span>Explains the differences between S-57, S-63, and S-101 chart data, plus licensing, updates, and what to confirm before integration.</span></li><li><a href="../docs/warning-capability.html">Warning Capability Notes</a><span>Outlines trigger basis, alert levels, and configurable options for shoal, obstruction, off-course, speed-limit, prohibited-area, and bridge-clearance warnings.</span></li><li><a href="../docs/deployment-integration.html">Deployment and Integration Guide</a><span>Introduces onboard, shore-side, and hybrid deployment scenarios, runtime environment requirements, and integration flows using NMEA and WebSocket interfaces.</span></li><li><a href="../docs/safer-voyage-support.html">Eastar Map: Safer Navigation on Every Voyage</a><span>From brand positioning to applicable scenarios, this article explains how Eastar Map supports navigation through chart display, live positioning, risk warning, and route planning.</span></li><li><a href="../docs/charts-beyond-display.html">Charts Are Not Only for Looking: They Participate in Judgment</a><span>Chart display is only the start. This article explains how chart data, live positioning, risk warning, and route planning work together to support navigation decisions.</span></li><li><a href="../docs/six-navigation-scenarios.html">Six Navigation Scenarios That All Need Clearer Risk Prompts</a><span>Ocean shipping, coastal fishing, inland waterways, port operations, and maritime supervision differ in detail but share one need: seeing risk earlier and keeping the route controllable.</span></li><li><a href="../docs/from-website-to-release.html">From Website to Release: What Eastar Map Has Prepared</a><span>From brand entry and product description to application scenarios and a release path, this article reviews the foundation the Eastar Map website already provides.</span></li></ul></section><section class="section contact-strip" id="contact">
+  <div class="footer-brand">
+    <div>
+      <h2>东星海图 · Eastar Map</h2>
+      <p>Stars above. Seas ahead.</p>
+    </div>
+    <div class="qrcode-grid qrcode-grid-left"><figure class="qrcode-card"><img src="../../qrcode/weixin-qrcode.png" alt="WeCom Consultation QR Code" loading="lazy" decoding="async"><figcaption><strong>WeCom Consultation QR Code</strong><span>Scan to use the WeCom consultation channel for project communication and business support.</span></figcaption></figure><figure class="qrcode-card"><img src="../../qrcode/weixin%20gzh.jpg" alt="WeChat Official Account QR Code" loading="lazy" decoding="async"><figcaption><strong>WeChat Official Account QR Code</strong><span>Scan to follow the Eastar Map WeChat official account for product updates and navigation safety notes.</span></figcaption></figure></div>
+  </div>
+  <div class="footer-meta muted">
+    <div>© 2020 - 2026 Eastar Map Technology Co., Ltd. All Rights Reserved.</div>
+    <div>Email: <a href="mailto:cheldon@outlook.com">cheldon@outlook.com</a></div>
+    <div>Address: No. 666, Gaoxin 4th Road, East Lake High-Tech Development Zone, Wuhan, China</div>
+    <div class="footer-links"><a href="https://eastarmap.com/">Website: https://eastarmap.com/</a><a href="https://github.com/eastarmap/repository/releases">Latest Release</a></div>
+  </div>
+</section></main>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deployment and Integration Guide · Docs · Eastar Map</title>
+<meta name="description" content="Introduces onboard, shore-side, and hybrid deployment scenarios, runtime environment requirements, and integration flows using NMEA and WebSocket interfaces.">
+<link rel="canonical" href="https://eastarmap.com/en/docs/deployment-integration.html">
+<meta property="og:title" content="Deployment and Integration Guide · Docs · Eastar Map">
+<meta property="og:description" content="Introduces onboard, shore-side, and hybrid deployment scenarios, runtime environment requirements, and integration flows using NMEA and WebSocket interfaces.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://eastarmap.com/en/docs/deployment-integration.html">
+<meta property="og:site_name" content="Eastar Map">
+<link rel="alternate" hreflang="zh-CN" href="https://eastarmap.com/docs/deployment-integration.html">
+<link rel="alternate" hreflang="en" href="https://eastarmap.com/en/docs/deployment-integration.html">
+<link rel="alternate" hreflang="x-default" href="https://eastarmap.com/docs/deployment-integration.html">
+<link rel="icon" href="../../qrcode/aboutCycle-2023-120.png">
+<link rel="stylesheet" href="../../styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Eastar Map Technology Co., Ltd.","alternateName":"东星海图科技有限公司","url":"https://eastarmap.com/","address":"No. 666, Gaoxin 4th Road, East Lake High-Tech Development Zone, Wuhan, China","email":"cheldon@outlook.com"}</script>
+</head>
+<body class="page-doc">
+<header class="site-header" aria-label="Main navigation">
+  <a class="brand-mark" href="../index.html" aria-label="Eastar Map home"><img class="brand-logo" src="../../qrcode/aboutCycle-2023-120.png" alt="Eastar Map brand logo" decoding="async"> <span>东星海图 · Eastar Map</span></a>
+  <nav class="top-nav" aria-label="Primary"><a href="../index.html">Home</a><a href="../about.html">About</a><a href="../product.html">Product</a><a href="../scenarios.html">Scenarios</a><a href="../contact.html">Contact</a><a href="../docs.html" aria-current="page">Docs</a></nav>
+  <div class="language-switch" aria-label="Language switch">
+    <a href="../../docs/deployment-integration.html" aria-label="切换到中文">中文</a>
+  </div>
+</header>
+<main class="page"><section class="hero"><div class="hero-content"><p class="eyebrow">Docs</p><h1>Deployment and Integration Guide</h1><p class="lead doc-hero-meta"><time datetime="2026-09-21">Updated: 2026-09-21</time></p></div></section>
+  <section class="section card doc-article">
+  <a class="doc-back" href="../docs.html">← Back to documents</a>
+  <img class="doc-cover" src="../../docs/assets/4-eastar-offline-license-evalute.png" alt="Screenshot of the Eastar Map offline license evaluation dialog" loading="lazy" decoding="async">
+  <p class="doc-summary">Introduces onboard, shore-side, and hybrid deployment scenarios, runtime environment requirements, and integration flows using NMEA and WebSocket interfaces.</p>
+  <p class="doc-tags"><span class="tag">Deployment</span><span class="tag">Integration</span></p>
+  <p>The deployment model depends on the scenario: a single vessel values offline availability, fleet management values centralized data, and ship-to-shore collaboration requires both ends to exchange data. The three models can be combined.</p><h3>Deployment models</h3><table><tr><th>Model</th><th>Scenario</th><th>Notes</th></tr><tr><td>Onboard deployment</td><td>Single-vessel navigation support</td><td>Runs locally offline, with chart data and permits updated aboard</td></tr><tr><td>Shore-side deployment</td><td>Fleet and dispatch management</td><td>Centralized management of chart and voyage data for unified maintenance</td></tr><tr><td>Hybrid deployment</td><td>Ship-to-shore collaboration</td><td>Onboard system works offline and synchronizes with shore after berthing</td></tr></table><figure class="doc-figure"><img src="../../docs/assets/5-credit-status-key-manager.png" alt="Screenshot of the authorization status summary in the Eastar credential manager" loading="lazy" decoding="async"><figcaption>License type, remaining time, and validation states in the credential manager.</figcaption></figure><h3>Runtime environment</h3><ul class="doc-list"><li>Operating system: Windows and Linux environments are supported, with domestic platform adaptation assessed per project.</li><li>Hardware: sized by chart data volume and concurrent track count; the exact baseline follows the project technical proposal.</li><li>Network: offline operation is supported, and chart data plus permits can be imported from offline media.</li></ul><h3>Interface integration</h3><ul class="doc-list"><li>Position and attitude input: common formats such as NMEA 0183 and NMEA 2000.</li><li>Warning and status output: warning events and voyage status can be published over WebSocket or HTTP.</li><li>Integration support: interface notes, field lists, and joint debugging examples are available.</li></ul><h3>Implementation flow</h3><ol class="doc-list"><li>Requirement confirmation: agree on vessel type, waters, data format, and warning scope.</li><li>Environment preparation: confirm operating system, hardware, and network conditions.</li><li>Data import: load chart data and permit files and verify coverage.</li><li>Interface joint debugging: validate position input and warning event output.</li><li>Trial run and delivery: adjust configuration based on the trial run, then deliver.</li></ol><div class="notice">Specific environment baselines and interface details follow the project technical proposal agreed by both parties.</div>
+  </section>
+  <section class="section card"><h2>Continue Reading</h2><ul class="doc-related"><li><a href="../docs/chart-data-formats.html">Chart Data Format Notes</a><span>Explains the differences between S-57, S-63, and S-101 chart data, plus licensing, updates, and what to confirm before integration.</span></li><li><a href="../docs/warning-capability.html">Warning Capability Notes</a><span>Outlines trigger basis, alert levels, and configurable options for shoal, obstruction, off-course, speed-limit, prohibited-area, and bridge-clearance warnings.</span></li><li><a href="../docs/safer-voyage-support.html">Eastar Map: Safer Navigation on Every Voyage</a><span>From brand positioning to applicable scenarios, this article explains how Eastar Map supports navigation through chart display, live positioning, risk warning, and route planning.</span></li><li><a href="../docs/charts-beyond-display.html">Charts Are Not Only for Looking: They Participate in Judgment</a><span>Chart display is only the start. This article explains how chart data, live positioning, risk warning, and route planning work together to support navigation decisions.</span></li><li><a href="../docs/llm-local-chart-cli.html">Letting Large Models Call Local Chart Capabilities: The Eastar Map CLI Approach</a><span>How local C/C++ chart capabilities reach large model clients safely: a stable C ABI, the eastarmap_cli.exe JSON command contract, and a Python MCP Server.</span></li><li><a href="../docs/six-navigation-scenarios.html">Six Navigation Scenarios That All Need Clearer Risk Prompts</a><span>Ocean shipping, coastal fishing, inland waterways, port operations, and maritime supervision differ in detail but share one need: seeing risk earlier and keeping the route controllable.</span></li><li><a href="../docs/from-website-to-release.html">From Website to Release: What Eastar Map Has Prepared</a><span>From brand entry and product description to application scenarios and a release path, this article reviews the foundation the Eastar Map website already provides.</span></li></ul></section><section class="section contact-strip" id="contact">
+  <div class="footer-brand">
+    <div>
+      <h2>东星海图 · Eastar Map</h2>
+      <p>Stars above. Seas ahead.</p>
+    </div>
+    <div class="qrcode-grid qrcode-grid-left"><figure class="qrcode-card"><img src="../../qrcode/weixin-qrcode.png" alt="WeCom Consultation QR Code" loading="lazy" decoding="async"><figcaption><strong>WeCom Consultation QR Code</strong><span>Scan to use the WeCom consultation channel for project communication and business support.</span></figcaption></figure><figure class="qrcode-card"><img src="../../qrcode/weixin%20gzh.jpg" alt="WeChat Official Account QR Code" loading="lazy" decoding="async"><figcaption><strong>WeChat Official Account QR Code</strong><span>Scan to follow the Eastar Map WeChat official account for product updates and navigation safety notes.</span></figcaption></figure></div>
+  </div>
+  <div class="footer-meta muted">
+    <div>© 2020 - 2026 Eastar Map Technology Co., Ltd. All Rights Reserved.</div>
+    <div>Email: <a href="mailto:cheldon@outlook.com">cheldon@outlook.com</a></div>
+    <div>Address: No. 666, Gaoxin 4th Road, East Lake High-Tech Development Zone, Wuhan, China</div>
+    <div class="footer-links"><a href="https://eastarmap.com/">Website: https://eastarmap.com/</a><a href="https://github.com/eastarmap/repository/releases">Latest Release</a></div>
+  </div>
+</section></main>
+</body>
+</html>

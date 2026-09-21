@@ -23,6 +23,10 @@ body.page-product { --top-bg-height: clamp(415px, calc(48vh + 25px), 525px); --h
 html[lang="en"] body.page-product { --top-bg-height: clamp(435px, calc(48vh + 45px), 545px); }
 body.page-about { --top-bg-height: clamp(390px, calc(45vh + 20px), 490px); --hero-min: clamp(320px, 40vh, 450px); }
 body.page-contact { --top-bg-height: clamp(380px, 46vh, 480px); --hero-min: clamp(315px, 39vh, 455px); }
+body.page-docs { --top-bg-height: clamp(360px, 44vh, 460px); --hero-min: clamp(300px, 36vh, 400px); }
+html[lang="en"] body.page-docs { --top-bg-height: clamp(380px, 46vh, 480px); }
+body.page-doc { --top-bg-height: clamp(440px, 52vh, 560px); --hero-min: clamp(340px, 42vh, 470px); }
+html[lang="en"] body.page-doc { --top-bg-height: clamp(460px, 54vh, 580px); }
 body.page-scenarios { --top-bg-height: clamp(300px, 38vh, 390px); --hero-min: clamp(240px, 32vh, 360px); }
 a { color: inherit; }
 .site-header {
@@ -112,6 +116,31 @@ th { background: #eef5f9; color: #183247; }
 .qrcode-card figcaption { display: grid; gap: .2rem; color: var(--muted); font-size: .86rem; }
 .qrcode-card strong { color: #12324a; }
 .footer-brand { display: flex; justify-content: space-between; gap: 1rem; align-items: center; }
+.docs-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.doc-card { display: flex; flex-direction: column; overflow: hidden; border: 1px solid #dbe5ec; border-radius: 16px; background: #fff; text-decoration: none; transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease; }
+.doc-card img { width: 100%; height: 180px; object-fit: cover; display: block; }
+.doc-card-body { display: grid; gap: .5rem; padding: .95rem 1rem 1.15rem; }
+.doc-card h3 { margin: 0; color: #12324a; font-size: 1.08rem; }
+.doc-card p { margin: 0; color: var(--muted); font-size: .92rem; }
+.doc-card-meta { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem .5rem; font-size: .82rem; }
+.doc-card-meta time { margin-left: auto; white-space: nowrap; }
+.doc-card:hover { border-color: var(--accent); box-shadow: 0 12px 26px rgba(11,93,120,.14); transform: translateY(-2px); }
+.doc-back { display: inline-block; margin-bottom: .85rem; color: #1d5d84; font-weight: 800; font-size: .92rem; text-decoration: none; }
+.doc-back:hover { text-decoration: underline; }
+.doc-hero-meta { font-size: .95rem; }
+.doc-article { display: grid; gap: .2rem; }
+.doc-cover { width: 100%; max-height: 320px; object-fit: cover; border-radius: 14px; display: block; margin-bottom: .6rem; }
+.doc-figure { margin: 1.15rem 0; }
+.doc-figure img { width: 100%; max-height: 300px; object-fit: cover; border-radius: 14px; display: block; }
+.doc-figure figcaption { margin-top: .5rem; color: var(--muted); font-size: .86rem; text-align: center; }
+.doc-summary { color: #12324a; font-weight: 600; font-size: 1.05rem; }
+.doc-tags { display: flex; flex-wrap: wrap; gap: .2rem; margin-bottom: .4rem; }
+.doc-list { display: grid; gap: .4rem; padding-left: 1.15rem; }
+.doc-related { display: grid; gap: .75rem; padding-left: 1.15rem; }
+.doc-related li { color: var(--muted); }
+.doc-related a { color: #1d5d84; font-weight: 800; text-decoration: none; }
+.doc-related a:hover { text-decoration: underline; }
+.doc-related span { display: block; margin-top: .2rem; font-size: .9rem; }
 .notice { border-left: 4px solid var(--gold); background: #fff8e6; padding: 1rem; border-radius: 0 14px 14px 0; }
 
 @media (min-width: 1280px) {
@@ -144,12 +173,19 @@ th { background: #eef5f9; color: #183247; }
   body.page-about { --top-bg-height: 490px; }
   html[lang="en"] body.page-about { --top-bg-height: 465px; }
   body.page-contact { --top-bg-height: 420px; }
+  body.page-docs { --top-bg-height: 410px; }
+  html[lang="en"] body.page-docs { --top-bg-height: 430px; }
+  body.page-doc { --top-bg-height: 470px; }
+  html[lang="en"] body.page-doc { --top-bg-height: 490px; }
   body.page-scenarios { --top-bg-height: 355px; }
   body.page-product .hero + .section { margin-top: calc(1.5rem + 67px); }
   body.page-about .hero + .section { margin-top: calc(1.5rem + 30px); }
+  body.page-docs .hero + .section { margin-top: calc(1.5rem + 30px); }
+  body.page-doc .hero + .section { margin-top: calc(1.5rem + 40px); }
   body.page-scenarios .hero + .section { margin-top: calc(1.5rem + 45px); }
   .hero::after { width: min(42vw, 260px); height: min(42vw, 260px); opacity: .72; }
   .image-grid-home { grid-template-columns: 1fr; }
+  .docs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .scenario-grid { grid-template-columns: 1fr; }
   .image-card img { height: 210px; }
   .footer-brand { align-items: flex-start; flex-direction: column; }
@@ -167,6 +203,10 @@ th { background: #eef5f9; color: #183247; }
   body.page-about { --top-bg-height: 490px; }
   html[lang="en"] body.page-about { --top-bg-height: 465px; }
   body.page-contact { --top-bg-height: 419px; }
+  body.page-docs { --top-bg-height: 409px; }
+  html[lang="en"] body.page-docs { --top-bg-height: 429px; }
+  body.page-doc { --top-bg-height: 480px; }
+  html[lang="en"] body.page-doc { --top-bg-height: 500px; }
   body.page-scenarios { --top-bg-height: 356px; }
   .site-header { margin: .75rem; padding: .75rem; border-radius: 16px; }
   .brand-mark { white-space: nowrap; text-align: left; line-height: 1.35; }
@@ -181,7 +221,7 @@ th { background: #eef5f9; color: #183247; }
   h1 { font-size: clamp(2.15rem, 10vw, 3.2rem); line-height: 1.08; }
   .hero:not(.hero-home) h1 { font-size: clamp(2rem, 9vw, 2.85rem); }
   .lead { font-size: 1.02rem; }
-  .summary-grid, .feature-grid, .image-grid, .value-grid, .scenario-grid { grid-template-columns: 1fr; }
+  .summary-grid, .feature-grid, .image-grid, .value-grid, .scenario-grid, .docs-grid { grid-template-columns: 1fr; }
   .card { padding: 1.15rem; border-radius: 16px; }
   .image-card img { height: 200px; }
   .qrcode-grid { grid-template-columns: repeat(2, minmax(120px, 1fr)); }
@@ -204,6 +244,10 @@ th { background: #eef5f9; color: #183247; }
   body.page-about { --top-bg-height: 491px; }
   html[lang="en"] body.page-about { --top-bg-height: 466px; }
   body.page-contact { --top-bg-height: 419px; }
+  body.page-docs { --top-bg-height: 409px; }
+  html[lang="en"] body.page-docs { --top-bg-height: 439px; }
+  body.page-doc { --top-bg-height: 510px; }
+  html[lang="en"] body.page-doc { --top-bg-height: 530px; }
   body.page-scenarios { --top-bg-height: 356px; }
   .top-nav a, .language-switch a { font-size: .84rem; padding: .56rem .58rem; }
   .actions { gap: .32rem; }

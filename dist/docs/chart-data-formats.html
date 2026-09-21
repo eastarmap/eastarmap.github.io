@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>海图数据格式说明 · 东星海图文档</title>
+<meta name="description" content="说明 S-57、S-63 与 S-101 三类海图数据的定位差异，以及数据授权、更新和接入前需要确认的事项。">
+<link rel="canonical" href="https://eastarmap.com/docs/chart-data-formats.html">
+<meta property="og:title" content="海图数据格式说明 · 东星海图文档">
+<meta property="og:description" content="说明 S-57、S-63 与 S-101 三类海图数据的定位差异，以及数据授权、更新和接入前需要确认的事项。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://eastarmap.com/docs/chart-data-formats.html">
+<meta property="og:site_name" content="Eastar Map">
+<link rel="alternate" hreflang="zh-CN" href="https://eastarmap.com/docs/chart-data-formats.html">
+<link rel="alternate" hreflang="en" href="https://eastarmap.com/en/docs/chart-data-formats.html">
+<link rel="alternate" hreflang="x-default" href="https://eastarmap.com/docs/chart-data-formats.html">
+<link rel="icon" href="../qrcode/aboutCycle-2023-120.png">
+<link rel="stylesheet" href="../styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Eastar Map Technology Co., Ltd.","alternateName":"东星海图科技有限公司","url":"https://eastarmap.com/","address":"武汉东湖高新区高新四路666号","email":"cheldon@outlook.com"}</script>
+</head>
+<body class="page-doc">
+<header class="site-header" aria-label="顶部导航">
+  <a class="brand-mark" href="../index.html" aria-label="东星海图首页"><img class="brand-logo" src="../qrcode/aboutCycle-2023-120.png" alt="东星海图品牌 Logo" decoding="async"> <span>东星海图 · Eastar Map</span></a>
+  <nav class="top-nav" aria-label="主导航"><a href="../index.html">首页</a><a href="../about.html">关于</a><a href="../product.html">产品</a><a href="../scenarios.html">方案</a><a href="../contact.html">联系</a><a href="../docs.html" aria-current="page">文档</a></nav>
+  <div class="language-switch" aria-label="语言切换">
+    <a href="../en/docs/chart-data-formats.html" aria-label="Switch to English">Eng</a>
+  </div>
+</header>
+<main class="page"><section class="hero"><div class="hero-content"><p class="eyebrow">Docs</p><h1>海图数据格式说明</h1><p class="lead doc-hero-meta"><time datetime="2026-09-21">更新日期：2026-09-21</time></p></div></section>
+  <section class="section card doc-article">
+  <a class="doc-back" href="../docs.html">← 返回文档列表</a>
+  <img class="doc-cover" src="../docs/assets/3-eastar-multiple-cells-main-view-properties.png" alt="多个海图单元拼合的覆盖视图与字段信息截图" loading="lazy" decoding="async">
+  <p class="doc-summary">说明 S-57、S-63 与 S-101 三类海图数据的定位差异，以及数据授权、更新和接入前需要确认的事项。</p>
+  <p class="doc-tags"><span class="tag">海图数据</span><span class="tag">S-57</span></p>
+  <p>系统以矢量海图数据作为航行底图。不同数据格式面向的环节不同：有的负责数据内容本身，有的负责分发与授权，有的面向下一代数据模型。接入前先确认格式与授权方式，可以避免后续更新流程反复调整。</p><h3>常见格式对照</h3><table><tr><th>格式</th><th>定位</th><th>典型用途</th></tr><tr><td>S-57</td><td>IHO 矢量海图传输标准</td><td>电子导航海图（ENC）的基础数据内容</td></tr><tr><td>S-63</td><td>S-57 数据的加密与授权封装</td><td>受版权保护的海图数据分发</td></tr><tr><td>S-101</td><td>S-100 框架下的新一代 ENC 标准</td><td>更灵活的要素模型与新增要素类型</td></tr></table><figure class="doc-figure"><img src="../docs/assets/6-eastar-layers-manager-chart-main-view-properties.png" alt="加载海图文件后的主视图、图层要素与文件属性截图" loading="lazy" decoding="async"><figcaption>加载海图文件后的主视图、图层要素与文件属性。</figcaption></figure><h3>授权与更新</h3><ul class="doc-list"><li>S-63 数据需要配套的授权许可与单元许可文件，导入前应确认许可有效期与覆盖范围。</li><li>更新包通常按固定周期发布，可采用增量方式替换受影响的海图单元。</li><li>导入时会校验数据版本与许可状态，对过期或缺失授权的单元给出提示。</li></ul><figure class="doc-figure"><img src="../docs/assets/5-credit-status-key-manager.png" alt="Eastar 凭据管理中的授权状态摘要截图" loading="lazy" decoding="async"><figcaption>凭据管理中的授权类型、剩余时间与各项校验状态。</figcaption></figure><h3>接入前的确认项</h3><ol class="doc-list"><li>确认海图覆盖范围与使用水域，核对是否包含计划航行的航道与港口。</li><li>确认数据格式与加密方式，明确许可文件的获取途径与更新责任方。</li><li>确认更新周期与更新方式，规划数据目录、备份与回滚流程。</li></ol><div class="notice">不同数据提供方的授权形式存在差异，实际导入方式请以随数据提供的说明文件为准。</div>
+  </section>
+  <section class="section card"><h2>继续阅读</h2><ul class="doc-related"><li><a href="../docs/warning-capability.html">预警能力说明</a><span>梳理浅点、碍航物、偏航、限速区、禁航区和桥梁净空等预警类型的触发依据、提示分级与可配置项。</span></li><li><a href="../docs/deployment-integration.html">部署与集成指南</a><span>介绍船端、岸端与混合部署的适用场景、运行环境要求，以及 NMEA、WebSocket 等接口对接流程。</span></li><li><a href="../docs/safer-voyage-support.html">东星海图：让每一次航行更安心</a><span>从品牌定位到适用场景，说明东星海图围绕海图显示、实时定位、风险预警和航线规划提供航行辅助的方向。</span></li><li><a href="../docs/charts-beyond-display.html">海图不只是用来看，也要参与判断</a><span>海图显示只是起点。说明海图数据、实时定位、风险预警与航线规划如何配合，共同支撑航行判断。</span></li><li><a href="../docs/llm-local-chart-cli.html">让大模型调用本地海图能力：东星海图的 CLI 思路</a><span>本地 C/C++ 海图能力如何安全交给大模型：从 C ABI 固定边界、eastarmap_cli.exe 的 JSON 命令契约，到 Python MCP Server 接入客户端。</span></li><li><a href="../docs/six-navigation-scenarios.html">六类航行场景，都需要更清晰的风险提示</a><span>远洋运输、近海捕捞、内河航道、港区与海事监管等场景各有侧重，但共同需求一致：风险更早被看见，航线更可控。</span></li><li><a href="../docs/from-website-to-release.html">从官网到发布，东星海图已经准备了什么</a><span>从品牌入口、产品说明、应用场景到发布路径，梳理东星海图官网已经搭好的基础内容与后续补强方向。</span></li></ul></section><section class="section contact-strip" id="contact">
+  <div class="footer-brand">
+    <div>
+      <h2>东星海图 · Eastar Map</h2>
+      <p>Stars above. Seas ahead.</p>
+    </div>
+    <div class="qrcode-grid qrcode-grid-left"><figure class="qrcode-card"><img src="../qrcode/weixin-qrcode.png" alt="企业微信咨询二维码" loading="lazy" decoding="async"><figcaption><strong>企业微信咨询二维码</strong><span>扫码进入企业微信咨询入口，获取项目沟通与商务支持。</span></figcaption></figure><figure class="qrcode-card"><img src="../qrcode/weixin%20gzh.jpg" alt="微信公众号二维码" loading="lazy" decoding="async"><figcaption><strong>微信公众号二维码</strong><span>扫码关注东星海图微信公众号，获取产品动态与航行安全资讯。</span></figcaption></figure></div>
+  </div>
+  <div class="footer-meta muted">
+    <div>© 2020 - 2026 东星海图科技有限公司 All Rights Reserved.</div>
+    <div>邮箱: <a href="mailto:cheldon@outlook.com">cheldon@outlook.com</a></div>
+    <div>地址: 武汉东湖高新区高新四路666号</div>
+    <div class="footer-links"><a href="https://eastarmap.com/">官网: https://eastarmap.com/</a><a href="https://github.com/eastarmap/repository/releases">最新发布</a></div>
+  </div>
+</section></main>
+</body>
+</html>
